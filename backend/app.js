@@ -3,6 +3,7 @@ import connectToDatabase from "./src/config/db.js";
 import cors from "cors";
 import authRoutes from "./src/routes/authRoutes.js";
 import userRoutes from "./src/routes/userRoutes.js";
+import postRoutes from './src/routes/postRoutes.js'
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 
@@ -32,6 +33,8 @@ app.get("/", (_req, res) => {
 
 app.use("/api/auth", authRoutes);  // маршрут для регистрации
 app.use("/api/users", userRoutes); // маршрут для профиля
+app.use("/api/posts", postRoutes); // маршрут для постов
+
 
 // Start server
 app.listen(PORT, async () => {
