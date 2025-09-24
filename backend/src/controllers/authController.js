@@ -21,14 +21,11 @@ export const registerUser = async (req, res) => {
         .json({ message: "User with this email already exists" });
     }
 
-    // Хэшируем пароль
-    const hashedPassword = await bcrypt.hash(password, 10);
-
     const newUser = new User({
       fullName,
       userName,
       email,
-      password: hashedPassword,
+      password,
     });
     await newUser.save();
 

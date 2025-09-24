@@ -2,6 +2,7 @@ import express from "express";
 import connectToDatabase from "./src/config/db.js";
 import cors from "cors";
 import authRoutes from "./src/routes/authRoutes.js";
+import userRoutes from "./src/routes/userRoutes.js";
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 
@@ -28,7 +29,9 @@ app.use(cors(corsOptions));
 app.get("/", (_req, res) => {
   res.send("HomePage");
 });
-app.use("/auth", authRoutes);
+
+app.use("/api/auth", authRoutes);  // маршрут для регистрации
+app.use("/api/users", userRoutes); // маршрут для профиля
 
 // Start server
 app.listen(PORT, async () => {
