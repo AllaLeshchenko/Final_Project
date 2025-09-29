@@ -6,19 +6,40 @@ export const getProfile = async (req, res) => {
   try {
     const userId = req.params.id;
 
-    // ищем пользователя и исключаем пароль
-    const user = await User.findById(userId).select("-password");
+    const user = await User.findById(userId)
+      .select("-password")
+      .populate("posts")      // посты пользователя
+      .populate("followers")  // подписчики (Follow[], но внутри есть User)
+      .populate("following"); // подписки (Follow[], но внутри есть User)
 
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
 
-    res.json(user);
+    // преобразуем followers/following → массив пользователей
+    const followersUsers = user.followers?.map(f => f.follower);
+    const followingUsers = user.following?.map(f => f.following);
+
+    res.json({
+      _id: user._id,
+      fullName: user.fullName,
+      userName: user.userName,
+      email: user.email,
+      bio: user.bio,
+      profileImage: user.profileImage,
+      postsCount: user.postsCount,
+      followersCount: user.followersCount,
+      followingCount: user.followingCount,
+      posts: user.posts,
+      followers: followersUsers,
+      following: followingUsers,
+    });
   } catch (error) {
     console.error("Get profile error:", error);
     res.status(500).json({ message: "Server error", error });
   }
 };
+
 
 // Обновление профиля (имя, био, аватар)
 export const updateProfile = async (req, res) => {
@@ -50,4 +71,3 @@ export const updateProfile = async (req, res) => {
     res.status(500).json({ message: "Server error", error });
   }
 };
-

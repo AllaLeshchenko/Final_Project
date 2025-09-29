@@ -1,39 +1,27 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 
-const userSchema = new mongoose.Schema(
+const { Schema } = mongoose;
+
+const userSchema = new Schema(
   {
-    fullName: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-    userName: {
-      type: String,
-      required: true,
-      unique: true,
-      trim: true,
-    },
-    email: {
-      type: String,
-      required: true,
-      unique: true,
-    },
-    password: {
-      type: String,
-      required: true,
-    },
-    bio: {
-      type: String, // Краткая биография/о себе
-      default: "",
-      trim: true,
-    },
-    profileImage: {
-      type: String, // будем хранить Base64 строку
-      default: "",
-    },
+    fullName: { type: String, required: true, trim: true },
+    userName: { type: String, required: true, unique: true, trim: true },
+    email:    { type: String, required: true, unique: true },
+    password: { type: String, required: true },
+    bio:      { type: String, default: "", trim: true },
+    profileImage: { type: String, default: "" }, // base64 строка
+
+    // === Счётчики ===
+    postsCount:     { type: Number, default: 0 },
+    followersCount: { type: Number, default: 0 },
+    followingCount: { type: Number, default: 0 },
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
+  }
 );
 
 // Хеширование пароля перед сохранением
@@ -48,8 +36,34 @@ userSchema.pre("save", async function (next) {
   }
 });
 
+// Виртуальные поля 
+userSchema.virtual("posts", {
+  ref: "Post",
+  localField: "_id",
+  foreignField: "author",
+  justOne: false,
+});
+
+userSchema.virtual("followers", {
+  ref: "Follow",
+  localField: "_id",
+  foreignField: "following",
+  justOne: false,
+  options: {
+    populate: { path: "follower", model: "User" },
+  },
+});
+
+userSchema.virtual("following", {
+  ref: "Follow",
+  localField: "_id",
+  foreignField: "follower",
+  justOne: false,
+  options: {
+    populate: { path: "following", model: "User" },
+  },
+});
+
 const User = mongoose.model("User", userSchema);
-
 export default User;
-
 
