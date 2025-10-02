@@ -6,10 +6,10 @@ export const getNotifications = async (req, res) => {
     const userId = req.userId;
 
     const notifications = await Notification.find({ recipient: userId })
-      .sort({ createdAt: -1 }) // новые сверху
+      .sort({ createdAt: -1 })                              // новые сверху
       .populate("sender", "userName fullName profileImage") // чтобы видеть кто
-      .populate("post", "content") // если лайк/коммент → подтянем пост
-      .populate("comment", "text"); // если коммент → подтянем текст
+      .populate("post", "content")                          // если лайк/коммент → подтянем пост
+      .populate("comment", "text");                         // если коммент → подтянем текст
 
     res.json(notifications);
   } catch (error) {

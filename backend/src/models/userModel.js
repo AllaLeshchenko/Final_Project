@@ -12,7 +12,7 @@ const userSchema = new Schema(
     bio:      { type: String, default: "", trim: true },
     profileImage: { type: String, default: "" }, // base64 строка
 
-    // === Счётчики ===
+    // Счётчики 
     postsCount:     { type: Number, default: 0 },
     followersCount: { type: Number, default: 0 },
     followingCount: { type: Number, default: 0 },

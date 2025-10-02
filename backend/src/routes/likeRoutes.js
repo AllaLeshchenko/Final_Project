@@ -1,11 +1,17 @@
-// routes/likeRoutes.js
 import express from "express";
 import { protect } from "../middlewares/authMiddleware.js";
-import { likePost, unlikePost } from "../controllers/likeController.js";
+import { likePost, unlikePost, getPostLikes } from "../controllers/likeController.js";
 
 const router = express.Router();
 
-router.post("/:postId", protect, likePost);     // лайк
-router.delete("/:postId", protect, unlikePost); // анлайк
+// Лайк поста
+router.post("/:postId/like", protect, likePost);
+
+// Удаление лайка
+router.delete("/:postId/unlike", protect, unlikePost);
+
+// Просмотр всех лайков
+router.get("/:postId",protect, getPostLikes);
 
 export default router;
+

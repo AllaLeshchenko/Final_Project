@@ -1,4 +1,5 @@
 import Post from "../models/postModel.js";
+import User from "../models/userModel.js";
 
 // Создание поста (требуется авторизация)
 export const createPost = async (req, res) => {
@@ -18,6 +19,7 @@ export const createPost = async (req, res) => {
       newPost.image = base64Image;
     }
 
+    // Сохраняем пост — хук pre('save') автоматически увеличит postsCount
     await newPost.save();
 
     res.status(201).json({ message: "Post created", post: newPost });
@@ -26,6 +28,7 @@ export const createPost = async (req, res) => {
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
+
 
 // Получение поста по ID
 export const getPostById = async (req, res) => {
@@ -114,17 +117,17 @@ export const deletePost = async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
     if (!post) return res.status(404).json({ message: "Post not found" });
+    if (post.author.toString() !== req.userId) return res.status(403).json({ message: "Not authorized" });
 
-    if (post.author.toString() !== req.userId) {
-      return res.status(403).json({ message: "Not authorized" });
-    }
+    await Post.findByIdAndDelete(req.params.id);
 
-    await post.deleteOne();
+    // уменьшаем postsCount
+    await User.findByIdAndUpdate(req.userId, { $inc: { postsCount: -1 } });
+
     res.json({ message: "Post deleted" });
   } catch (error) {
     console.error("Delete post error:", error.message);
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
-
 

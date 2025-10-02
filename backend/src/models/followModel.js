@@ -20,30 +20,27 @@ followSchema.pre("save", function (next) {
   next();
 });
 
-// Методы для подписки / отписки с обновлением счётчиков 
-followSchema.statics.follow = async function (followerId, followingId) {
-  if (followerId.equals(followingId)) throw new Error("Нельзя подписаться на самого себя");
-
-  const res = await this.updateOne(
-    { follower: followerId, following: followingId },
-    { $setOnInsert: { follower: followerId, following: followingId } },
-    { upsert: true }
-  ).exec();
-
-  if (res.upsertedCount === 1) {
-    await User.updateOne({ _id: followerId }, { $inc: { followingCount: 1 } }).exec();
-    await User.updateOne({ _id: followingId }, { $inc: { followersCount: 1 } }).exec();
+// После создания подписки → увеличиваем follower/following
+followSchema.post("save", async function(doc) {
+  try {
+    await User.updateOne({ _id: doc.follower }, { $inc: { followingCount: 1 } });
+    await User.updateOne({ _id: doc.following }, { $inc: { followersCount: 1 } });
+  } catch (err) {
+    console.error("Error updating follow counts:", err);
   }
-};
+});
 
-followSchema.statics.unfollow = async function (followerId, followingId) {
-  const res = await this.deleteOne({ follower: followerId, following: followingId }).exec();
-
-  if (res.deletedCount && res.deletedCount > 0) {
-    await User.updateOne({ _id: followerId }, { $inc: { followingCount: -1 } }).exec();
-    await User.updateOne({ _id: followingId }, { $inc: { followersCount: -1 } }).exec();
+// После удаления подписки → уменьшаем follower/following
+followSchema.post("findOneAndDelete", async function(doc) {
+  if (doc) {
+    try {
+      await User.updateOne({ _id: doc.follower }, { $inc: { followingCount: -1 } });
+      await User.updateOne({ _id: doc.following }, { $inc: { followersCount: -1 } });
+    } catch (err) {
+      console.error("Error decrementing follow counts:", err);
+    }
   }
-};
+});
 
 const Follow = mongoose.model("Follow", followSchema);
 export default Follow;

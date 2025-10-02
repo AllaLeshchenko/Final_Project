@@ -1,16 +1,15 @@
 import User from '../models/userModel.js';
 
-
 // Получение профиля по ID
 export const getProfile = async (req, res) => {
   try {
     const userId = req.params.id;
 
     const user = await User.findById(userId)
-      .select("-password")
-      .populate("posts")      // посты пользователя
-      .populate("followers")  // подписчики (Follow[], но внутри есть User)
-      .populate("following"); // подписки (Follow[], но внутри есть User)
+      .select("-password -email") // убираем пароль и email
+      .populate("posts")
+      .populate("followers")
+      .populate("following");
 
     if (!user) {
       return res.status(404).json({ message: "User not found" });
@@ -24,7 +23,6 @@ export const getProfile = async (req, res) => {
       _id: user._id,
       fullName: user.fullName,
       userName: user.userName,
-      email: user.email,
       bio: user.bio,
       profileImage: user.profileImage,
       postsCount: user.postsCount,
@@ -45,6 +43,11 @@ export const getProfile = async (req, res) => {
 export const updateProfile = async (req, res) => {
   try {
     const userId = req.userId; // берём userId из токена (protect middleware)
+
+    if (!userId) {
+      return res.status(401).json({ message: "Not authorized" });
+    }
+
     const { fullName, bio } = req.body;
 
     const updateData = {};
@@ -58,8 +61,8 @@ export const updateProfile = async (req, res) => {
     }
 
     const user = await User.findByIdAndUpdate(userId, updateData, {
-      new: true, // возвращает обновлённого пользователя
-    }).select("-password"); // исключаем пароль
+      new: true,                   // вернуть обновлённого пользователя
+    }).select("-password -email"); // убираем пароль и email
 
     if (!user) {
       return res.status(404).json({ message: "User not found" });

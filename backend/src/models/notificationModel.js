@@ -12,7 +12,7 @@ const notificationSchema = new Schema(
       required: true,
     },
     post:     { type: Schema.Types.ObjectId, ref: "Post" },     // если лайк/коммент
-    comment:  { type: Schema.Types.ObjectId, ref: "Comment" }, // если комментарий
+    comment:  { type: Schema.Types.ObjectId, ref: "Comment" },  // если комментарий
     isRead:   { type: Boolean, default: false },                // прочитано или нет
   },
   { timestamps: true }

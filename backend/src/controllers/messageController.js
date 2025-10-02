@@ -1,24 +1,23 @@
 import Message from "../models/messageModel.js";
 
-// Получить историю чата между 2 пользователями
-export const getChatHistory = async (req, res) => {
+// Получить все сообщения между текущим пользователем и собеседником
+export const getMessages = async (req, res) => {
   try {
-    const { userId } = req; // текущий пользователь
-    const { recipientId } = req.params;
+    const { userId } = req.params;    // id собеседника
+    const currentUserId = req.userId; // из protect
 
     const messages = await Message.find({
       $or: [
-        { sender: userId, recipient: recipientId },
-        { sender: recipientId, recipient: userId },
+        { sender: currentUserId, recipient: userId },
+        { sender: userId, recipient: currentUserId },
       ],
     })
       .sort({ createdAt: 1 })
-      .populate("sender", "userName fullName profileImage")
-      .populate("recipient", "userName fullName profileImage");
+      .populate("sender recipient", "username avatar");
 
     res.json(messages);
   } catch (error) {
-    console.error("Get chat history error:", error);
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({ message: "Ошибка получения сообщений" });
   }
 };
+

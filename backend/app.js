@@ -1,18 +1,20 @@
 import express from "express";
-import http from "http"; // нужно для socket.io
+import http from "http";
 import { Server } from "socket.io";
 import connectToDatabase from "./src/config/db.js";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-import dotenv from "dotenv";
 import authRoutes from "./src/routes/authRoutes.js";
 import userRoutes from "./src/routes/userRoutes.js";
 import postRoutes from "./src/routes/postRoutes.js";
 import searchRoutes from "./src/routes/searchRoutes.js";
-import followRoutes from "./src/routes/followRoutes.js"; // если у тебя есть
+import followRoutes from "./src/routes/followRoutes.js";
 import notificationRoutes from "./src/routes/notificationRoutes.js";
 import messageRoutes from "./src/routes/messageRoutes.js";
-import Message from "./src/models/messageModel.js";
+import likeRoutes from "./src/routes/likeRoutes.js";
+import commentRoutes from "./src/routes/commentRoutes.js";
+import initChatSocket from "./src/sockets/chatSocket.js";
+import dotenv from "dotenv";
 
 dotenv.config();
 
@@ -27,15 +29,15 @@ app.use(cookieParser());
 
 // CORS (разрешаем фронтенду работать с API)
 const corsOptions = {
-  origin: "http://localhost:5173", // фронтенд на Vite
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  credentials: true, // для авторизации через куки/токены
+  origin: "http://localhost:5173",                // фронтенд на Vite
+  methods: ["GET", "POST", "PUT", "DELETE"],      // для авторизации через куки/токены
+  credentials: true,
 };
 app.use(cors(corsOptions));
 
 // ROUTES 
 app.get("/", (_req, res) => {
-  res.send("✅ API is running...");
+  res.send("API is running...");
 });
 
 app.use("/api/auth", authRoutes);                  // регистрация, логин
@@ -45,12 +47,12 @@ app.use("/api/search", searchRoutes);              // поиск пользов�
 app.use("/api/follows", followRoutes);             // подписки (если созданы)
 app.use("/api/notifications", notificationRoutes); // уведомления
 app.use("/api/messages", messageRoutes);           // история сообщений
+app.use("/api/likes", likeRoutes);                 // лайки для постов
+app.use("/api/comments", commentRoutes);           // комментарии для постов
+
 
 // SOCKET.IO 
-// создаём http-сервер поверх express
 const server = http.createServer(app);
-
-// инициализация socket.io
 const io = new Server(server, {
   cors: {
     origin: "http://localhost:5173",
@@ -59,44 +61,7 @@ const io = new Server(server, {
   },
 });
 
-// карта онлайн-пользователей (userId → socketId)
-const onlineUsers = new Map();
-
-io.on("connection", (socket) => {
-  console.log("🔌 Новый пользователь подключился:", socket.id);
-
-  // регистрация пользователя в онлайне
-  socket.on("register", (userId) => {
-    onlineUsers.set(userId, socket.id);
-    console.log(`✅ Пользователь ${userId} онлайн`);
-  });
-
-  // отправка сообщения
-  socket.on("message", async ({ sender, recipient, text }) => {
-    try {
-      const message = await Message.create({ sender, recipient, text });
-
-      // если получатель в сети — отправляем ему
-      const recipientSocket = onlineUsers.get(recipient.toString());
-      if (recipientSocket) {
-        io.to(recipientSocket).emit("message", message);
-      }
-    } catch (error) {
-      console.error("Ошибка при отправке сообщения:", error);
-    }
-  });
-
-  // отключение
-  socket.on("disconnect", () => {
-    console.log(" Пользователь отключился:", socket.id);
-    for (let [userId, sockId] of onlineUsers.entries()) {
-      if (sockId === socket.id) {
-        onlineUsers.delete(userId);
-        break;
-      }
-    }
-  });
-});
+initChatSocket(io);
 
 // SERVER START 
 server.listen(PORT, async () => {
