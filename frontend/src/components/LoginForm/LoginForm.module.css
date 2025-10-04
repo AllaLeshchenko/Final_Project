@@ -1,0 +1,104 @@
+.wrapper {
+  display: flex;
+  justify-content: center;
+  gap: 33px;
+  width: 100%;
+  margin-top: 85px;
+}
+
+.phones {
+  max-width: 380px;
+  width: 100%;
+  min-height: 580px;
+}
+
+.authForm {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+  align-items: center;
+  text-align: center;
+  gap: 15px;
+  max-width: 350px;
+  width: 100%;
+  min-height: 480px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.35);
+}
+
+.containerOne {
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  border: 1px solid var(--border-color);
+  border-radius: 3px;
+  padding: 0 40px;
+}
+
+.containerTwo {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.logo {
+  max-width: 190px;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.inputField {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin-top: 20px;
+  width: 100%;
+}
+.input {
+  width: 100%;
+  height: 38px;
+  padding: 10px;
+  font-size: 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 3px;
+  background-color: rgba(250, 250, 250, 1);
+  box-shadow: 
+    -5px 0 10px rgba(0, 0, 0, 0.1), 
+     5px 0 10px rgba(0, 0, 0, 0.1);  
+}
+
+.or {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  color: var(--text-color);
+  font-size: 13px;
+  margin-bottom: 70px;
+}
+.line {
+  flex: 1;
+  border-bottom: 1px solid var(--border-color);
+}
+.link {
+  font-size: 12px;
+  margin-bottom: 23px;
+}
+.parTwo {
+  font-size: 14px;
+  color: black;
+}
+.button {
+  width: 268px;
+  height: 32px;
+  margin-top: 15px;
+  margin-bottom: 22px;
+}

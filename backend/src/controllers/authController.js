@@ -14,19 +14,14 @@ export const registerUser = async (req, res) => {
       });
     }
 
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
-      return res
-        .status(400)
-        .json({ message: "User with this email already exists" });
+    // Проверка на уникальность
+    const existingUserName = await User.findOne({ userName });
+    if (existingUserName) {
+      return res.status(400).json({ field: "userName", message: "This username is already taken" });
     }
 
-    const newUser = new User({
-      fullName,
-      userName,
-      email,
-      password,
-    });
+    // Создание пользователя
+    const newUser = new User({ fullName, userName, email, password });
     await newUser.save();
 
     res.status(201).json({
@@ -41,21 +36,23 @@ export const registerUser = async (req, res) => {
 
 export const loginUser = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { email, password } = req.body; // здесь пока приходит только email/username
 
     if (!email || !password) {
-      return res.status(400).json({ error: "Email and password are required!" });
+      return res.status(400).json({ error: "Email/Username and password are required!" });
     }
 
-    const user = await User.findOne({ email });
+    // Ищем пользователя либо по email, либо по userName
+    const user = await User.findOne({
+      $or: [{ email }, { userName: email }]
+    });
+
     if (!user) {
-      return res.status(401).json({ message: "Incorrect email or password" });
+      return res.status(401).json({ message: "Incorrect email/username or password" });
     }
-    console.log(password)
-    console.log(user.password)
+
     // Проверка пароля
     const isMatch = await bcrypt.compare(password, user.password);
-    console.log(isMatch)
     if (!isMatch) {
       return res.status(401).json({ message: "Incorrect password" });
     }
@@ -70,14 +67,66 @@ export const loginUser = async (req, res) => {
     // Сохраняем токен в httpOnly cookie
     res.cookie("token", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production", // в продакшене только HTTPS
-      sameSite: "Strict", // можно "None" если фронт и бэк на разных доменах
-      maxAge: 60 * 60 * 1000, // 1 час
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "Strict",
+      maxAge: 60 * 60 * 1000,
     });
 
-    res.json({ message: "User logged in successfully" });
+    res.json({
+      message: "User logged in successfully",
+      user: {
+        _id: user._id,
+        userName: user.userName,
+        email: user.email
+      }
+    });
+
   } catch (error) {
     console.error("Login error:", error.message);
     res.status(500).json({ error: "Server error with login user" });
   }
 };
+
+
+// export const loginUser = async (req, res) => {
+//   try {
+//     const { email, password } = req.body;
+
+//     if (!email || !password) {
+//       return res.status(400).json({ error: "Email and password are required!" });
+//     }
+
+//     const user = await User.findOne({ email });
+//     if (!user) {
+//       return res.status(401).json({ message: "Incorrect email or password" });
+//     }
+//     console.log(password)
+//     console.log(user.password)
+//     // Проверка пароля
+//     const isMatch = await bcrypt.compare(password, user.password);
+//     console.log(isMatch)
+//     if (!isMatch) {
+//       return res.status(401).json({ message: "Incorrect password" });
+//     }
+
+//     // Создаём JWT
+//     const token = jwt.sign(
+//       { userId: user._id },
+//       process.env.JWT_SECRET,
+//       { expiresIn: "1h" }
+//     );
+
+//     // Сохраняем токен в httpOnly cookie
+//     res.cookie("token", token, {
+//       httpOnly: true,
+//       secure: process.env.NODE_ENV === "production", // в продакшене только HTTPS
+//       sameSite: "Strict", // можно "None" если фронт и бэк на разных доменах
+//       maxAge: 60 * 60 * 1000, // 1 час
+//     });
+
+//     res.json({ message: "User logged in successfully" });
+//   } catch (error) {
+//     console.error("Login error:", error.message);
+//     res.status(500).json({ error: "Server error with login user" });
+//   }
+// };
