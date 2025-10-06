@@ -9,10 +9,10 @@ export const addComment = async (req, res) => {
     const { postId } = req.params;
     const { text } = req.body;
 
-    if (!text) return res.status(400).json({ message: "Комментарий пустой" });
+    if (!text) return res.status(400).json({ message: "Comment is empty" });
 
     const post = await Post.findById(postId);
-    if (!post) return res.status(404).json({ message: "Пост не найден" });
+    if (!post) return res.status(404).json({ message: "Post not found" });
 
     const comment = await Comment.create({ user: userId, post: postId, text });
 
@@ -29,7 +29,7 @@ export const addComment = async (req, res) => {
         comment: comment._id,
       });
     }
-    res.json({ message: "Комментарий добавлен", comment });
+    res.json({ message: "Comment added", comment });
   } catch (error) {
     console.error("Add comment error:", error);
     res.status(500).json({ message: "Server error", error: error.message });
@@ -43,14 +43,14 @@ export const deleteComment = async (req, res) => {
     const { commentId } = req.params;
 
     const comment = await Comment.findById(commentId);
-    if (!comment) return res.status(404).json({ message: "Комментарий не найден" });
+    if (!comment) return res.status(404).json({ message: "Comment not found" });
     if (comment.user.toString() !== userId.toString())
-      return res.status(403).json({ message: "Не автор комментария" });
+      return res.status(403).json({ message: "Not the author of the comment" });
 
     await Comment.findByIdAndDelete(commentId);
     await Post.decrementComments(comment.post);
 
-    res.json({ message: "Комментарий удалён" });
+    res.json({ message: "Comment deleted" });
   } catch (error) {
     console.error("Delete comment error:", error);
     res.status(500).json({ message: "Server error", error });
@@ -63,12 +63,18 @@ export const getPostComments = async (req, res) => {
     const { postId } = req.params;
 
     const comments = await Comment.find({ post: postId })
-      .populate("user", "userName fullName profileImage")
+      .populate("user", "userName fullName profileImage") 
       .sort({ createdAt: -1 });
 
     res.json(comments);
   } catch (error) {
     console.error("Get comments error:", error);
-    res.status(500).json({ message: "Ошибка при получении комментариев", error: error.message });
+    res.status(500).json({
+      message: "Error receiving comments",
+      error: error.message,
+    });
   }
 };
+
+
+

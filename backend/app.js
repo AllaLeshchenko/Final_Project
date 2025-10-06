@@ -49,6 +49,8 @@ app.use("/api/notifications", notificationRoutes); // уведомления
 app.use("/api/messages", messageRoutes);           // история сообщений
 app.use("/api/likes", likeRoutes);                 // лайки для постов
 app.use("/api/comments", commentRoutes);           // комментарии для постов
+app.use("/uploads", express.static("uploads"));
+
 
 
 // SOCKET.IO 
