@@ -1,0 +1,101 @@
+.postsConteiner {
+  position: fixed;
+  top: 0;
+  left: 245px;
+  width: 1195px;
+  height: 100vh; 
+  background: #fff;
+  padding: 50px 40px 40px; 
+  overflow-y: auto;
+  z-index: 5;
+}
+
+.noPosts {
+  text-align: center;
+  color: #777;
+  font-size: 18px;
+}
+
+.postsSection {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.postsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(4, auto);
+  gap: 8px;
+  width: 850px;
+  justify-items: center;
+  align-content: start;
+  box-sizing: border-box;
+  padding-bottom: 40px;
+}
+
+.postImage {
+  width: 300px;
+  height: 270px;
+  object-fit: cover;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.postImage:hover {
+  transform: scale(1.05);
+}
+
+
+/* .postsConteiner {
+  position: fixed;          
+  top: 0;
+  left: 245px;              
+  width: 1195px;           
+  height: calc(100% - 158px); 
+  background: #fff;
+  padding: 20px 40px;
+  box-sizing: border-box;
+  overflow-y: auto;
+  z-index: 5;
+}
+
+.noPosts {
+  text-align: center;
+  color: #777;
+  margin-top: 90px;
+  font-size: 18px;
+}
+
+.postsSection {
+  display: flex;
+  position: relative;
+  margin-top: 32px;
+  display: flex;
+  justify-content: center; 
+  width: 100%;
+}
+
+.postsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); 
+  grid-template-rows: repeat(4, 1fr);  
+  gap: 3px;
+  width: 850px; 
+  justify-items: center;
+}
+
+.postImage {
+  width: 270px;
+  height: 230px;
+  object-fit: cover;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.postImage:hover {
+  transform: scale(1.05);
+} */
+

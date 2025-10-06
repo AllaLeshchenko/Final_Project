@@ -4,6 +4,7 @@ import LogIn from "./pages/LogIn/LogIn";
 import Register from "./pages/Register/Register";
 import MainPage from "./pages/MainPage/MainPage";
 import Profile from "./pages/Profile/Profile";
+import Explore from "./pages/Explore/Explore";
 import NotFound from "./pages/NotFound/NotFound";
 
 function App() {
@@ -17,8 +18,10 @@ function App() {
       <Route path="/login" element={<LogIn />} />
       <Route path="/register" element={<Register />} />
 
-      {/* ✅ Новый маршрут для профиля */}
+      {/* Маршрут для профиля */}
       <Route path="/profile/:userId" element={<Profile />} />
+
+      <Route path="/explore" element={<Explore />} />
 
       {/* Путь не найден */}
       <Route path="*" element={<NotFound />} />
