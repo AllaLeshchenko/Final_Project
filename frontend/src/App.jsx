@@ -7,16 +7,10 @@ import NotFound from "./pages/NotFound/NotFound";
 
 function App() {
   return (
+  <div className="App">
     <Routes>
       {/* Главная защищённая страница */}
-      <Route
-        path="/"
-        element={
-          <ProtectedRoute>
-            <MainPage />
-          </ProtectedRoute>
-        }
-      />
+      <Route path="/" element={<ProtectedRoute><MainPage /></ProtectedRoute>}/>
 
       {/* Страницы для авторизации */}
       <Route path="/login" element={<LogIn />} />
@@ -25,6 +19,7 @@ function App() {
       {/* Путь не найден */}
       <Route path="*" element={<NotFound />} />
     </Routes>
+  </div>
   );
 }
 

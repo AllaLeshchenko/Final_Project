@@ -1,0 +1,62 @@
+.link {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  font-weight: 500;
+  color: #333;
+  text-decoration: none;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 8px 0;
+  box-sizing: border-box;
+}
+
+.linkActive {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  font-weight: 900;
+  color: #000;
+  background: transparent;
+  padding: 8px 0;
+}
+
+.icon {
+  width: 24px;
+  height: 24px;
+  margin-left: 24px;
+  margin-right: 16px;
+  box-sizing: border-box;
+  transition: opacity 0.2s ease;
+  opacity: 0.9;
+  filter: none;
+  background: transparent;
+}
+
+
+button {
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+button:focus,
+a:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+a,
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.profileIcon {
+  width: 30px; 
+  height: 30px;
+  border-radius: 50%;
+  filter: none !important; 
+  background: transparent;
+}

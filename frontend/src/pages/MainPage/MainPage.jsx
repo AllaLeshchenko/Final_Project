@@ -1,28 +1,54 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
-import api from "../../api/axios";
+import React, { useState } from "react";
+import Layout from "../../components/Layout/Layout";
+import Search from "../../components/Search/Search";
+import Notification from "../../components/Notification/Notification";
+import styles from "./MainPage.module.css";
 
 function MainPage() {
-  const navigate = useNavigate();
+  const [activePanel, setActivePanel] = useState(null);
 
-  const handleLogout = async () => {
-    try {
-      await api.post("/auth/logout"); // /api/auth/logout
-      navigate("/login");
-    } catch (error) {
-      console.error("Logout failed", error);
-    }
-  };
+  const openPanel = (panelName) => setActivePanel(panelName);
+  const closePanel = () => setActivePanel(null);
 
   return (
-    <main className="App">
-      <header>
-        <button onClick={handleLogout}>Logout</button>
-      </header>
-      <h1>Главная страница Ichgram 📸</h1>
-      <p>Здесь будет лента постов.</p>
-    </main>
+    <Layout onPanelOpen={openPanel}>
+      <div className={styles.container}>
+        {/* Основной контент */}
+        <div className={styles.content}>
+          <h1>Главная страница ICHGRAM</h1>
+          <p>Здесь будет лента постов</p>
+        </div>
+
+        {/* Overlay для затемнения контента */}
+        {activePanel && (
+          <div className={styles.overlay} onClick={closePanel}></div>
+        )}
+
+        {/* Панели Search / Notifications */}
+        {activePanel === "Search" && (
+          <div className={styles.panel}>
+            <Search />
+          </div>
+        )}
+        {activePanel === "Notifications" && (
+          <div className={styles.panel}>
+            <Notification />
+          </div>
+        )}
+      </div>
+    </Layout>
   );
 }
 
 export default MainPage;
+
+
+
+
+
+
+
+
+
+
+
