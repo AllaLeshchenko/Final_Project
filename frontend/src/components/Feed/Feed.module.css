@@ -1,0 +1,17 @@
+.feed {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* две колонки одинаковой ширины */
+  gap: 40px; /* расстояние между элементами по горизонтали и вертикали */
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 20px 0;
+  border: 1;
+}
+
+.message {
+  text-align: center;
+  color: #999;
+  font-size: 14px;
+  margin-top: 40px;
+}
