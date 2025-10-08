@@ -3,7 +3,7 @@ import axios from "axios";
 
 const API_URL = "/api/posts";
 
-// 🔹 Получить все посты (главная лента)
+// Получить все посты (главная лента)
 export const fetchAllPosts = createAsyncThunk(
   "posts/fetchAllPosts",
   async (_, thunkAPI) => {
@@ -22,7 +22,7 @@ export const fetchAllPosts = createAsyncThunk(
   }
 );
 
-// 🔹 Получить посты конкретного пользователя
+// Получить посты конкретного пользователя
 export const fetchUserPosts = createAsyncThunk(
   "posts/fetchUserPosts",
   async (userId, thunkAPI) => {
@@ -39,7 +39,7 @@ export const fetchUserPosts = createAsyncThunk(
   }
 );
 
-// 🔹 Лайк / анлайк поста
+// Лайк / анлайк поста
 export const toggleLike = createAsyncThunk(
   "posts/toggleLike",
   async (postId, thunkAPI) => {
@@ -72,7 +72,7 @@ export const toggleLike = createAsyncThunk(
   }
 );
 
-// 🔹 Добавить комментарий
+// Добавить комментарий
 export const addComment = createAsyncThunk(
   "posts/addComment",
   async ({ postId, text }, thunkAPI) => {
@@ -113,12 +113,6 @@ const postSlice = createSlice({
         state.loading = true;
         state.error = null;
       })
-      // .addCase(fetchAllPosts.fulfilled, (state, action) => {
-      //   state.loading = false;
-      //   //  перемешиваем посты (дополнительно, хотя сервер уже делает)
-      //   state.posts = action.payload.sort(() => Math.random() - 0.5);
-      // })
-
       .addCase(fetchAllPosts.fulfilled, (state, action) => {
         state.loading = false;
 
@@ -139,7 +133,6 @@ const postSlice = createSlice({
         // Перемешиваем (опционально)
         state.posts = formattedPosts.sort(() => Math.random() - 0.5);
       })
-
 
       .addCase(fetchAllPosts.rejected, (state, action) => {
         state.loading = false;

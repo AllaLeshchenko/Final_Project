@@ -9,29 +9,30 @@ const Feed = () => {
   const { posts, loading, error } = useSelector((state) => state.posts);
   console.log("Redux posts:", posts);
 
-
   useEffect(() => {
     dispatch(fetchAllPosts());
   }, [dispatch]);
 
-console.log("🧩 Структура поста:", posts[0]);
-
-
   if (loading) {
-    return <div className={styles.message}>Загрузка постов...</div>;
+    return <div className={styles.message}>Loading...</div>;
   }
 
   if (error) {
-    return <div className={styles.message}>Ошибка: {error}</div>;
+    return <div className={styles.message}>Error: {error}</div>;
   }
 
   if (!posts.length) {
-    return <div className={styles.message}>Постов пока нет</div>;
+    return <div className={styles.message}>There are no posts yet</div>;
   }
+
+  // ✅ Сортируем посты по дате создания: новые сверху
+  const sortedPosts = [...posts].sort(
+    (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+  );
 
   return (
     <div className={styles.feed}>
-      {posts.map((post) => (
+      {sortedPosts.map((post) => (
         <Post key={post._id} post={post} />
       ))}
     </div>
@@ -39,3 +40,44 @@ console.log("🧩 Структура поста:", posts[0]);
 };
 
 export default Feed;
+
+
+// import React, { useEffect } from "react";
+// import { useDispatch, useSelector } from "react-redux";
+// import { fetchAllPosts } from "../../redux/slices/postSlice";
+// import Post from "../Post/Post";
+// import styles from "./Feed.module.css";
+
+// const Feed = () => {
+//   const dispatch = useDispatch();
+//   const { posts, loading, error } = useSelector((state) => state.posts);
+//   console.log("Redux posts:", posts);
+
+
+//   useEffect(() => {
+//     dispatch(fetchAllPosts());
+//   }, [dispatch]);
+
+
+//   if (loading) {
+//     return <div className={styles.message}>Loading...</div>;
+//   }
+
+//   if (error) {
+//     return <div className={styles.message}>Error: {error}</div>;
+//   }
+
+//   if (!posts.length) {
+//     return <div className={styles.message}>There are no posts yet</div>;
+//   }
+
+//   return (
+//     <div className={styles.feed}>
+//       {posts.map((post) => (
+//         <Post key={post._id} post={post} />
+//       ))}
+//     </div>
+//   );
+// };
+
+// export default Feed;
