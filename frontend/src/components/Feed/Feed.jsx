@@ -7,10 +7,15 @@ import styles from "./Feed.module.css";
 const Feed = () => {
   const dispatch = useDispatch();
   const { posts, loading, error } = useSelector((state) => state.posts);
+  console.log("Redux posts:", posts);
+
 
   useEffect(() => {
     dispatch(fetchAllPosts());
   }, [dispatch]);
+
+console.log("🧩 Структура поста:", posts[0]);
+
 
   if (loading) {
     return <div className={styles.message}>Загрузка постов...</div>;

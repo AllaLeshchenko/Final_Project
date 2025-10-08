@@ -113,11 +113,34 @@ const postSlice = createSlice({
         state.loading = true;
         state.error = null;
       })
+      // .addCase(fetchAllPosts.fulfilled, (state, action) => {
+      //   state.loading = false;
+      //   //  перемешиваем посты (дополнительно, хотя сервер уже делает)
+      //   state.posts = action.payload.sort(() => Math.random() - 0.5);
+      // })
+
       .addCase(fetchAllPosts.fulfilled, (state, action) => {
         state.loading = false;
-        // 🎲 перемешиваем посты (дополнительно, хотя сервер уже делает)
-        state.posts = action.payload.sort(() => Math.random() - 0.5);
+
+        // Приводим полученные посты к ожидаемому виду
+        const formattedPosts = action.payload.map((p) => ({
+          ...p,
+          author: {
+            userName: p.author?.userName || "Unknown User",
+            profileImage: p.author?.profileImage || "/default-avatar.png",
+            bio: p.author?.bio || "",
+          },
+          likesCount: p.likesCount ?? 0,
+          commentsCount: p.commentsCount ?? (p.lastComments?.length || 0),
+          content: p.content || "",
+          image: p.image || null,
+        }));
+      
+        // Перемешиваем (опционально)
+        state.posts = formattedPosts.sort(() => Math.random() - 0.5);
       })
+
+
       .addCase(fetchAllPosts.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
