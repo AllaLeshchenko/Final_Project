@@ -5,6 +5,7 @@ import Register from "./pages/Register/Register";
 import MainPage from "./pages/MainPage/MainPage";
 import Profile from "./pages/Profile/Profile";
 import Explore from "./pages/Explore/Explore";
+import OtherProfile from "./pages/OtherProfile/OtherProfile";
 import NotFound from "./pages/NotFound/NotFound";
 
 function App() {
@@ -14,17 +15,18 @@ function App() {
       {/* Главная защищённая страница */}
       <Route path="/" element={<ProtectedRoute><MainPage /></ProtectedRoute>}/>
 
-      {/* Страницы для авторизации */}
       <Route path="/login" element={<LogIn />} />
+
       <Route path="/register" element={<Register />} />
 
-      {/* Маршрут для профиля */}
       <Route path="/profile/:userId" element={<Profile />} />
+
+      <Route path="/profile/:userId" element={<OtherProfile />} />
 
       <Route path="/explore" element={<Explore />} />
 
-      {/* Путь не найден */}
       <Route path="*" element={<NotFound />} />
+      
     </Routes>
   </div>
   );

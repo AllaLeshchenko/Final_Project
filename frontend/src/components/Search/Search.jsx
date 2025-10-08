@@ -1,20 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom"; // ✅ добавляем
 import { searchUsers, clearResults } from "../../redux/slices/searchSlice";
 import styles from "./Search.module.css";
 
 function Search() {
   const dispatch = useDispatch();
+  const navigate = useNavigate(); // ✅ создаём навигацию
   const { results, loading, error } = useSelector((state) => state.search);
-
   const [query, setQuery] = useState("");
 
-  // Отправляем запрос при вводе
   useEffect(() => {
     if (query.trim().length > 1) {
       const timeout = setTimeout(() => {
         dispatch(searchUsers(query));
-      }, 400); // небольшая задержка, чтобы не спамить сервер
+      }, 400);
       return () => clearTimeout(timeout);
     } else {
       dispatch(clearResults());
@@ -33,21 +33,15 @@ function Search() {
         className={styles.input}
       />
 
-      {loading && <div className={styles.message}>Searching...</div>}
-      {error && <div className={styles.error}>Error: {error}</div>}
-      {!loading && results.length === 0 && query.length > 1 && (
-        <div className={styles.message}>No users found</div>
-      )}
-
       <div className={styles.results}>
         {results.map((user) => (
-          <div key={user._id} className={styles.userItem}>
+          <div
+            key={user._id}
+            className={styles.userItem}
+            onClick={() => navigate(`/profile/${user._id}`)} 
+          >
             <img
-              src={
-                user.profileImage
-                  ? user.profileImage
-                  : "/default-avatar.png" 
-              }
+              src={user.profileImage || "/default-avatar.png"}
               alt={user.userName}
               className={styles.avatar}
             />
