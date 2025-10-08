@@ -10,11 +10,11 @@ export const searchUsers = async (req, res) => {
     }
 
     const users = await User.find({
-      $or: [
-        { fullName: { $regex: query, $options: "i" } },
-        { userName: { $regex: query, $options: "i" } }
-      ]
-    }).select("-password");
+  $or: [
+    { fullName: { $regex: "^" + query, $options: "i" } },
+    { userName: { $regex: "^" + query, $options: "i" } }
+  ]
+}).select("-password");
 
     res.json(users);
   } catch (error) {

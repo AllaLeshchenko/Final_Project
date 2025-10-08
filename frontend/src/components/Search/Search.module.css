@@ -1,9 +1,67 @@
 .container {
-  padding: 10px;
+  padding: 16px;
 }
 
-.container h2 {
-  font-size: 24px;
-  text-align: center;
+.title {
+  margin-bottom: 12px;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.input {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
   margin-bottom: 16px;
+  font-size: 14px;
+}
+
+.results {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.userItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px;
+  border-radius: 8px;
+  transition: background 0.2s;
+}
+
+.userItem:hover {
+  background: #f4f4f4;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.userInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.userName {
+  font-weight: 600;
+}
+
+.fullName {
+  font-size: 14px;
+  color: #666;
+}
+
+.message {
+  margin-top: 10px;
+  color: #666;
+}
+
+.error {
+  color: red;
 }
