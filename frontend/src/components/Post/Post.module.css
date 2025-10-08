@@ -66,10 +66,11 @@
 }
 
 .icon {
-  width: 20px;
-  height: 20px;
+  width: 22px;
+  height: 22px;
   cursor: pointer;
-  transition: transform 0.2s ease;
+  transition: transform 0.2s ease, filter 0.25s ease;
+  filter: grayscale(100%) brightness(0.6);
 }
 
 .icon:hover {
@@ -77,11 +78,14 @@
 }
 
 .liked {
-  filter: hue-rotate(320deg) brightness(1.5);
+  filter: brightness(0) saturate(100%) invert(20%) sepia(93%) saturate(7446%)
+    hue-rotate(356deg) brightness(95%) contrast(107%);
+  transform: scale(1.15);
 }
 
 .count {
   font-size: 12px;
+  color: #333;
 }
 
 .likesText {
@@ -89,6 +93,7 @@
   font-weight: 500;
   padding: 0 12px;
   margin-bottom: 4px;
+  color: #222;
 }
 
 .content {

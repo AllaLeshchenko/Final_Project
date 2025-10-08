@@ -1,4 +1,148 @@
 .overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal {
+  display: flex;
+  background: #fff;
+  width: 1200px;
+  height: 722px;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.imageSection {
+  width: 577px;
+  height: 722px;
+  flex-shrink: 0;
+}
+
+.postImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.infoSection {
+  flex: 1;
+  padding: 15px 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.topRow {
+  display: flex;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 2px solid #ccc;
+}
+
+.username {
+  margin-left: 20px;
+  font-weight: bold;
+}
+
+.followButton {
+  margin-left: 50px;
+  background: #3498db;
+  color: #fff;
+  font-size: 12px;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.postContent {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 20px;
+  gap: 20px;
+}
+
+.postText {
+  font-size: 14px;
+}
+
+.commentsSection {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.commentItem {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 15px;
+  gap: 20px;
+}
+
+.commentText {
+  display: flex;
+  flex-direction: column;
+}
+
+.commentAuthor {
+  font-weight: bold;
+}
+
+.commentTime {
+  font-size: 10px;
+  color: gray;
+  margin-top: 3px;
+}
+
+.actionsSection {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding-top: 10px;
+  border-top: 1px solid #eee;
+}
+
+.icon {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
+
+.addComment {
+  display: flex;
+  flex: 1;
+  gap: 10px;
+}
+
+.addComment input {
+  flex: 1;
+  padding: 5px 10px;
+  font-size: 12px;
+}
+
+.addComment button {
+  padding: 5px 10px;
+  font-size: 12px;
+  background: #3498db;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+
+/* .overlay {
   position: fixed;          
   top: 0;
   left: 245px;              
@@ -122,4 +266,4 @@
   color: #777;
   font-size: 13px;
   text-align: center;
-}
+} */

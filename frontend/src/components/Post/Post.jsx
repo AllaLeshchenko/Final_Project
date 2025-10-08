@@ -1,15 +1,17 @@
 import React, { useState } from "react";
 import likeIcon from "../../assets/like.png";
 import commentIcon from "../../assets/comment.png";
-import avatarFrame from "../../assets/post.png"; // рамка из макета
-import MyPost from "../MyPost/MyPost"; // компонент модального окна
+import avatarFrame from "../../assets/post.png"; 
+import MyPost from "../MyPost/MyPost"; 
+import { timeAgo } from "../../ui/timeAgo";
+
 import css from "./Post.module.css";
 
 const Post = ({ post }) => {
   const [isLiked, setIsLiked] = useState(post.isLiked);
   const [likesCount, setLikesCount] = useState(post.likesCount);
   const [expanded, setExpanded] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false); // состояние модального окна
+  const [isModalOpen, setIsModalOpen] = useState(false); 
 
   const handleLikeToggle = async () => {
     const token = localStorage.getItem("token");
@@ -52,9 +54,8 @@ const Post = ({ post }) => {
 
           <span className={css.userName}>{post.author.userName}</span>
 
-          <span className={css.date}>
-            {new Date(post.createdAt).toLocaleDateString()}
-          </span>
+          <span className={css.date}>{timeAgo(post.createdAt)}</span>
+        
         </div>
 
         {/* Post image */}
