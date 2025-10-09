@@ -4,6 +4,7 @@ import userReducer from "./slices/userSlice";
 import postReducer from "./slices/postSlice";
 import commentReducer from "./slices/commentSlice";
 import searchReducer from "./slices/searchSlice";
+import notifications from "./slices/notificationSlice";
 
 const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ const store = configureStore({
     posts: postReducer,
     comments: commentReducer,
     search: searchReducer,
+    notifications,
   },
 });
 

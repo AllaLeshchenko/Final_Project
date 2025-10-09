@@ -1,9 +1,116 @@
 .container {
-  padding: 10px;
+  position: fixed;
+  top: 0;
+  left: 245px;           
+  width: 397px;
+  height: calc(100% - 158px); 
+  padding: 20px;
+  box-sizing: border-box;
+  /* overflow-y: auto;  */
+  z-index: 20;
+  box-shadow: 4px 0 25px rgba(0, 0, 0, 0.15);
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
 }
 
-.container h2 {
+.title {
   font-size: 24px;
+  font-weight: 700;
   text-align: center;
-  margin-bottom: 16px;
+  margin-bottom: 10px;
 }
+
+.subtitle {
+  font-size: 16px;
+  font-weight: 500;
+  color: #666;
+  margin-bottom: 15px;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  background: #fafafa;
+  border-radius: 12px;
+  padding: 8px 10px;
+  transition: background 0.2s ease;
+  position: relative;
+}
+
+.item:hover {
+  background: #f1f1f1;
+}
+
+.checkBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #999;
+  margin-right: 10px;
+  transition: color 0.2s;
+}
+
+.checkBtn:hover {
+  color: #2ecc71;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 15px;
+  flex-shrink: 0;
+}
+
+.textBlock {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.textRow {
+  font-size: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.userName {
+  font-weight: 600;
+  margin-right: 6px;
+}
+
+.action {
+  color: #555;
+}
+
+.time {
+  font-size: 12px;
+  color: #999;
+  margin-top: 2px;
+}
+
+.postThumb {
+  width: 44px;
+  height: 44px;
+  border-radius: 6px;
+  object-fit: cover;
+  margin-left: 10px;
+  flex-shrink: 0;
+}
+
+.message {
+  text-align: center;
+  padding: 20px;
+  color: #888;
+}
+
+

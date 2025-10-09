@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Layout from "../../components/Layout/Layout";
 import Search from "../../components/Search/Search";
 import Notification from "../../components/Notification/Notification";
-import Feed from "../../components/Feed/Feed"; // ✅ добавляем
+import Feed from "../../components/Feed/Feed"; 
 import styles from "./MainPage.module.css";
 
 function MainPage() {
