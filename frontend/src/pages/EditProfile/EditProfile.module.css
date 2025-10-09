@@ -1,46 +1,140 @@
 .container {
-  padding: 40px;
-  max-width: 600px;
-  margin: 0 auto;
+  position: fixed;
+  left: 450px;
+  top: 200px;
+  padding-top: 50px;
+  padding-left: 167px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 60px;
+  color: #262626;
 }
 
 .form {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  align-items: flex-start;
 }
 
-.imageSection {
+.topSection {
   display: flex;
   align-items: center;
-  gap: 20px;
+  width: 100%;
+  max-width: 610px;
+  margin-bottom: 50px;
 }
 
 .avatar {
-  width: 120px;
-  height: 120px;
+  width: 56px;
+  height: 56px;
   border-radius: 50%;
   object-fit: cover;
 }
 
-input[type="text"],
-textarea {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 6px;
+.infoBlock {
+  margin-left: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.userName {
+  font-size: 16px;
+  font-weight: 500;
+  color: #262626;
+}
+
+.bio {
   font-size: 14px;
+  color: #8e8e8e;
+}
+
+.newPhotoBtn {
+  margin-left: auto;
+  background-color: #0095f6;
+  color: white;
+  font-size: 14px;
+  font-weight: 500;
+  border: none;
+  border-radius: 8px;
+  width: 115px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+}
+
+.fileInput {
+  display: none;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.label {
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 10px;
+  color: #262626;
+}
+
+.input {
+  width: 610px;
+  height: 42px;
+  border: 1px solid #dbdbdb;
+  border-radius: 12px;
+  padding: 10px 14px;
+  font-size: 14px;
+  outline: none;
+}
+
+.textarea {
+  width: 610px;
+  height: 62px;
+  border: 1px solid #dbdbdb;
+  border-radius: 12px;
+  padding: 10px 14px;
+  font-size: 14px;
+  resize: none;
+  outline: none;
 }
 
 .saveBtn {
-  padding: 10px 20px;
+  margin-top: 70px;
+  width: 268px;
+  height: 32px;
   background-color: #0095f6;
-  color: #fff;
+  color: white;
+  font-weight: 500;
   border: none;
   border-radius: 8px;
   cursor: pointer;
+  transition: background-color 0.2s ease;
 }
 
 .saveBtn:hover {
-  background-color: #007acc;
+  background-color: #0073e6;
 }
+
+.saveBtn:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.message {
+  margin-top: 20px;
+  font-size: 14px;
+  color: #0095f6;
+}
+

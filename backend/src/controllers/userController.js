@@ -48,11 +48,19 @@ export const updateProfile = async (req, res) => {
       return res.status(401).json({ message: "Not authorized" });
     }
 
-    const { fullName, bio } = req.body;
+    const { fullName, bio, userName } = req.body; // 🟢 добавили userName
 
     const updateData = {};
     if (fullName) updateData.fullName = fullName;
     if (bio) updateData.bio = bio;
+    if (userName) {
+      // Проверяем, не занят ли username
+      const existingUser = await User.findOne({ userName });
+      if (existingUser && existingUser._id.toString() !== userId) {
+        return res.status(400).json({ message: "Username already taken" });
+      }
+      updateData.userName = userName;
+    }
 
     // Если загружен файл (multer кладёт его в req.file)
     if (req.file) {
@@ -61,8 +69,8 @@ export const updateProfile = async (req, res) => {
     }
 
     const user = await User.findByIdAndUpdate(userId, updateData, {
-      new: true,                   // вернуть обновлённого пользователя
-    }).select("-password -email"); // убираем пароль и email
+      new: true, // вернуть обновлённого пользователя
+    }).select("-password -email");
 
     if (!user) {
       return res.status(404).json({ message: "User not found" });
@@ -74,3 +82,40 @@ export const updateProfile = async (req, res) => {
     res.status(500).json({ message: "Server error", error });
   }
 };
+
+
+// export const updateProfile = async (req, res) => {
+//   try {
+//     const userId = req.userId; // берём userId из токена (protect middleware)
+
+//     if (!userId) {
+//       return res.status(401).json({ message: "Not authorized" });
+//     }
+
+//     const { fullName, bio } = req.body;
+
+//     const updateData = {};
+//     if (fullName) updateData.fullName = fullName;
+//     if (bio) updateData.bio = bio;
+
+//     // Если загружен файл (multer кладёт его в req.file)
+//     if (req.file) {
+//       const base64Image = `data:${req.file.mimetype};base64,${req.file.buffer.toString("base64")}`;
+//       updateData.profileImage = base64Image;
+//     }
+
+//     const user = await User.findByIdAndUpdate(userId, updateData, {
+//       new: true,                   // вернуть обновлённого пользователя
+//     }).select("-password -email"); // убираем пароль и email
+
+//     if (!user) {
+//       return res.status(404).json({ message: "User not found" });
+//     }
+
+//     res.json(user);
+//   } catch (error) {
+//     console.error("Update profile error:", error);
+//     res.status(500).json({ message: "Server error", error });
+//   }
+// };
+
