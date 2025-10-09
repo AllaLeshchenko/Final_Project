@@ -6,7 +6,6 @@ import MainPage from "./pages/MainPage/MainPage";
 import Profile from "./pages/Profile/Profile";
 import Explore from "./pages/Explore/Explore";
 import EditProfile from "./pages/EditProfile/EditProfile";
-
 import NotFound from "./pages/NotFound/NotFound";
 
 function App() {

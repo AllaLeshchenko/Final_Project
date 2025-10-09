@@ -25,7 +25,7 @@ const SideBar = ({ activeLink: initialActiveLink, onPanelOpen }) => {
     { name: 'Home', type: 'link', path: '/', icon: Home },
     { name: 'Search', type: 'panel', icon: Search },
     { name: 'Explore', type: 'link', path: '/explore', icon: Explore },
-    { name: 'Message', type: 'link', path: '/chat', icon: Messages },
+    { name: 'Message', type: 'link', path: `/chat/${userId}`, icon: Messages },
     { name: 'Notifications', type: 'panel', icon: Notifications },
     { name: 'Create', type: 'link', path: '/addPost', icon: Create },
     { 
